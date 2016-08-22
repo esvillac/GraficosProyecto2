@@ -89,31 +89,38 @@ union{
  #local Nr = Nr + 1;// next Nr
  #end // ------------- end of loop  
  
- scale <0.3,0.3,0.3> rotate<90,0,0> translate<-1.20,1.2,0> } // end of union
+ scale <0.3,0.3,0.3> rotate<90,360*clock,0> translate<-1.20,1.2,0> } // end of union
 
 //------------------------------------------------------- end    
 
 // sample sphere
-sphere { <0,0,0>, 1.00 
+sphere { <0,0,0>, 0.75 
          texture { Polished_Chrome
                    //pigment{ color Red } // rgb< 1, 0.0, 0.0>}
                    //finish { phong 1 reflection {0.40 metallic 0.5}}
                  } // end of texture 
 
-          scale<0.3,0.3,0.3>  rotate<0,0,0>  translate<1.55,1.35,0>  
-       }  // end of sphere ----------------------------------- 
+          scale<0.3,0.3,0.3>  rotate < 0,360*clock,0>  translate<1.55,1.35,0>  
+       }
+// end of sphere ----------------------------------- 
+
 
 torus { 0.35,0.15 
         texture { pigment{ color rgb<1,1,1>*0.15 }
                   finish { phong 0.4 }
                 } // end of texture
-        scale <0.6,0.6,0.6> rotate<90,0,0> translate<0,0.60,0>
-} // end of torus  -------------------------------   
+        scale <0.6,0.6,0.6> rotate<90,360*clock,0> translate<0,0.60,0>
+} 
+// end of torus  -------------------------------         
+
+
 box { <0,0,0>,< 1.00, 1.00, 1.00>   
 
       texture { pigment{ color rgb<1,1,1>*0.15}  
                 finish { phong 1 reflection{ 0.00 metallic 0.00} } 
               } // end of texture
 
-      scale <0.5,0.5,0.5> rotate<0,0,0> translate<0.2,1.2,0> 
-    } // end of box -
+      scale <0.5,0.5,0.5>
+      rotate< 0,360*clock,0> translate<0.2,1.2,0> 
+    } // end of box -          
+    
