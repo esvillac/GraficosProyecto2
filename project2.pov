@@ -27,15 +27,22 @@ camera{Camera_0}
 // sun ----------------------------------------------------------------------
 light_source{< 3000,3000,-3000> color White}
 // sky ----------------------------------------------------------------------
-sky_sphere { pigment { gradient <0,1,0>
-                       color_map { [0.00 rgb <0.6,0.7,1.0>]
-                                   [0.35 rgb <0.1,0.0,0.8>]
-                                   [0.65 rgb <0.1,0.0,0.8>]
-                                   [1.00 rgb <0.6,0.7,1.0>] 
-                                 } 
-                       scale 2         
-                     } // end of pigment
-           } //end of skysphere
+plane{<0,1,0>,1 hollow
+       texture{
+        pigment{ bozo turbulence 0.92
+          color_map {
+           [0.00 rgb <0.2, 0.3, 1>*0.5]
+           [0.50 rgb <0.2, 0.3, 1>*0.8]
+           [0.70 rgb <1,1,1>]
+           [0.85 rgb <0.25,0.25,0.25>]
+           [1.0 rgb <0.5,0.5,0.5>]}
+          scale<1,1,1.5>*2.5
+          translate<1.0,0,-1>
+          }// end of pigment
+        finish {ambient 1 diffuse 0}
+        }// end of texture
+        scale 20000
+     }// end of plane
 //--------------------------------------------------------------------------
 //Piso -------------------------------------------------------------------
 plane{ <0,1,0>, 0 
@@ -48,7 +55,6 @@ plane{ <0,1,0>, 0
 //-------------------------------------------------------------------------- 
 //---------------------------- objects in scene ----------------------------
 //--------------------------------------------------------------------------
-
 
 #declare Ray_Profile = 
 box { <-1,-1,-1>,< 1,1,1> 
@@ -124,3 +130,35 @@ box { <0,0,0>,< 1.00, 1.00, 1.00>
       rotate< 0,360*clock,0> translate<0.2,1.2,0> 
     } // end of box -          
     
+
+/* Declaration of worm components*/
+#declare Position_1 =  <0,0.25,1> ;
+#declare Segment_Texture =
+ texture{ pigment{ color rgb<1,0.65,0>}
+          finish { phong 1.0 }
+        } // end of texture
+
+/*macro used to create the worm*/
+#macro Worm (radius_segment, radius_ring, Texture)
+#local Segment1 =
+ sphere{ <radius_ring,0,0>,radius_segment
+         texture{Texture}}
+
+union{
+  object{Segment1 rotate <0,  0,0>}
+  object{Segment1 rotate <0, 20,0>}
+  object{Segment1 rotate <0, 40,0>}
+  object{Segment1 rotate <0, 60,0>}
+  object{Segment1 rotate <0, 80,0>}
+  object{Segment1 rotate <0,100,0>}
+  object{Segment1 rotate <0,120,0>}
+  object{Segment1 rotate <0,140,0>}
+  object{Segment1 rotate <0,160,0>}
+  object{Segment1 rotate <0,180,0>}
+ } // end of union
+#end // ------------------ end of worm's macro
+/* Drawing the worm*/
+object{
+  Worm(0.15, 0.50, Segment_Texture)
+  translate<2,0.25,1>}
+// -------------------------------- end 
