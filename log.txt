@@ -1,0 +1,15 @@
+Andres
+- Trying to create smooth movement for objects
+http://www.f-lohmueller.de/pov_tut/animate/anim220e.htm
+- Added translation
+http://www.f-lohmueller.de/pov_tut/animate/anim112e.htm
+- Use splite curves
+http://www.f-lohmueller.de/pov_tut/animate/anim210e.htm
+- Changed sky... taken from this link.
+http://www.f-lohmueller.de/pov_tut/addon/00_Basic_Templates/10_Ready_made_scenes/70_Sea_partly_cloudy.txt
+- Animation path in order to create smooth movement
+http://www.f-lohmueller.de/pov_tut/animate/anim21e.htm
+- Control speed movement
+http://www.f-lohmueller.de/pov_tut/animate/anim280e.htm
+- physics laws used in motion
+- http://www.f-lohmueller.de/pov_tut/animate/anim260e.htm
