@@ -6,10 +6,11 @@ global_settings{ assumed_gamma 1.0 }
 #include "colors.inc"
 #include "textures.inc"
 #include "shapes.inc"
+#include "shapes3.inc"
 //--------------------------------------------------------------------------
 // camera ------------------------------------------------------------------
 #declare Camera_0 = camera {perspective angle 75               // front view
-  location  <0.0 , 3.0 ,-5.0>
+  location  <0.0 , 3.0 ,-8.0>
   right     x*image_width/image_height
   look_at   <0.0 , 1.0 , 0.0>}
 #declare Camera_1 = camera {/*ultra_wide_angle*/ angle 90   // diagonal view
@@ -43,16 +44,39 @@ plane{<0,1,0>,1 hollow
     finish {ambient 1 diffuse 0}
   }// end of texture
   scale 20000
-}// end of plane
+}// end of sky
 //--------------------------------------------------------------------------
-//Piso -------------------------------------------------------------------
-plane{ <0,1,0>, 0
-  texture{ pigment{ checker color rgb<1,1,1>*1.2 color rgb<0.25,0.15,0.1>*0}
-    //normal { bumps 0.75 scale 0.025}
-    finish { phong 0.1}
+// Create a plane
+polygon {
+  5,
+  <-10,0,10>, <-10,0,-10>, <10,0,-10>, <10,0,10>, <-10,0,10>
+  texture {
+    pigment {
+      checker White Tan
+      scale 0.4
+    }
+    finish {
+      diffuse 0.9
+    }
+  }
+}
+
+//ground floor
+fog { fog_type   2
+  distance   50
+  color      rgb<1,1,1>*0.8
+  fog_offset 0.1
+  fog_alt    1.5
+  turbulence 1.8
+} //
+// ground ----------------------------------
+plane{ <0,0.25,0>, -0.1
+  texture{
+    pigment{ color rgb<0.22,0.45,0>}
+    normal { bumps 0.75 scale 0.015 }
+    finish { phong 0.1 }
   } // end of texture
 } // end of plane
-
 //--------------------------------------------------------------------------
 //---------------------------- objects in scene ----------------------------
 //--------------------------------------------------------------------------
@@ -107,7 +131,7 @@ sphere { <0,0,0>, 0.75
   //finish { phong 1 reflection {0.40 metallic 0.5}}
 } // end of texture
 
-scale<0.3,0.3,0.3>  rotate < 0,360*clock,0>  translate<1.55,1.35,0>
+scale<0.3,0.3,0.3>  rotate < 0,360*clock,0>  translate<1.55*clock,1.35,0>
 }
 // end of sphere -----------------------------------
 
@@ -134,10 +158,22 @@ box { <0,0,0>,< 1.00, 1.00, 1.00>
 
 /* Declaration of worm components*/
 #declare Position_1 =  <0,0.25,1> ;
+// default texture fram 1 - 15
 #declare Segment_Texture =
   texture{ pigment{ color rgb<1,0.65,0>}
     finish { phong 1.0 }
   } // end of texture
+
+// default texture fram 15 - 30
+#declare Segment_Texture2 =
+  texture { pigment{ color rgb<1,1,1>*0.15}
+  } // end of texture
+
+#declare Segment_Texture3 =
+  texture { Polished_Chrome
+    //pigment{ color Red } // rgb< 1, 0.0, 0.0>}
+//finish { phong 1 reflection {0.40 metallic 0.5}}
+} // end of texture
 
 /*macro used to create the worm*/
 #macro Worm (radius_segment, radius_ring, Texture)
@@ -146,6 +182,34 @@ box { <0,0,0>,< 1.00, 1.00, 1.00>
     texture{Texture}}
 
   union{
+
+    // lapiz
+    object{
+      cylinder {
+        <0.1,-2,-0.2>, // start
+        <0.3,0.5,0.2>, // end
+        0.1         // Radius
+        open           // Remove end caps
+        texture { Polished_Chrome }
+      }
+    }
+    //envase
+    object {
+      Round_Cylinder_Tube(
+        <0.1,-2,-0.2>, // start
+        <0.1,-0.8,-0.2>, // end
+        0.3, // major radius
+        0.03, // border radius
+        0, //  1 = filled; 0 = open
+        0  //  Merge_On,
+      ) // ------------------------------
+      texture{ pigment{ color rgb<1,1,1>}
+        finish { phong 0.1}
+      } // end texture
+      scale <1,1,1>
+      rotate <0,0,0>
+      translate < 0, 0.9, 0>
+    } // end of object
     object{Segment1 rotate <0,  0,0>}
     object{Segment1 rotate <0,20+ 20*clock,0>}
     object{Segment1 rotate <0,40+ 40*clock,0>}
@@ -231,12 +295,5 @@ object{ Circle_Text_Valigned(
 
 
 // The moving sphere:
-sphere{ <0,0,0>,0.5
-  texture{ pigment{ rgb<1.0,1.0,1>*0.05 }
-    finish { phong 1 reflection{ 0.1 metallic 0.25} }
-  }
-  translate<0,0.5,0>
-  translate Spline_1(clock+0/30)
 
-} // end of sphere
 //---------------------------------------
