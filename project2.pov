@@ -45,7 +45,135 @@ plane{<0,1,0>,1 hollow
   }// end of texture
   scale 20000
 }// end of sky
-//--------------------------------------------------------------------------
+
+// TEXTURAS
+#declare Segment_Texture =
+  texture{ pigment{ color rgb<1,0.65,0>}
+    finish { phong 1.0 }
+  }
+
+#declare Segment_Texture2 =
+  texture { pigment{ color rgb<1,1,1>*0.15}
+  }
+
+#declare Segment_Texture3 =
+  texture { Polished_Chrome
+  }
+
+#declare esfera_texture =
+  texture{ pigment{ color rgb<1,0.65,0>}
+    finish { phong 1.0 }
+  }
+
+#declare esfera_texture2 =
+  texture { pigment{ color rgb<1,1,1>*0.15}
+  }
+
+#declare esfera_texture3 =
+  texture { Polished_Chrome
+  }
+
+#declare box_texture =
+  texture { pigment{ color rgb<1,1,1>*0.15}}
+
+#declare box_texture2 =
+  texture { pigment{ color rgb<1,1,1>*0.15}
+  }
+
+#declare box_texture3 =
+  texture{ pigment{ color rgb<1,0.65,0>}
+    finish { phong 1.0 }
+  }
+
+#declare torus_texture =
+ texture { pigment{ color rgb<1,1,1>*0.15 }
+    finish { phong 0.4 }
+}
+
+#declare torus_texture2 =
+  texture { pigment{ color rgb<1,1,1>*0.15}
+  }
+
+#declare torus_texture3 =
+  texture { pigment{ color rgb<1,1,1>*0.15 }
+    finish { phong 0.4 }
+} // end of texture
+// END TEXTURAS
+
+// SPLINES
+// coordinates for the points of a spline
+#declare P1 = <-2.00, 1, -2.00>;
+#declare P2 = < 1.00, 1, -2.00>;
+#declare P3 = < 2.00, 1, -1.00>;
+#declare P4 = < 2.00, 1,  2.00>;
+#declare P5 = < 0.00, 1,  2.00>;
+#declare P6 = <-2.00, 1,  1.50>;
+#declare P7 = <-2.00, 1, -1.00>;
+#declare P8 = <-2.00, 1, -2.00>;
+
+#declare Spline_tacho_basura =
+  spline {
+    natural_spline
+    -0.150, P7, // control point
+    0.300, P1, // starting point
+    0.225, P2,
+    0.350, P3,
+    0.440, P4,
+    0.590, P5,
+    0.880, P6,
+    1.130, P7,
+    1.200, P1, // end point
+    1.325, P2  // control point
+  }// end of spline ---------------
+
+#declare Spline_esfera =
+  spline {
+    natural_spline
+    -0.350, P7 - 0.05, // control point
+    0.300, P1 -0.05, // starting point
+    0.125, P2 -0.05,
+    0.250, P3 -0.05,
+    0.420, P4 -0.05,
+    0.490, P5 -0.05,
+    0.780, P6 -0.05,
+    0.900, P7 -0.05,
+    1.000, P1 -0.05, // end point
+    1.125, P2 -0.05  // control point
+  }// end of spline ---------------
+
+
+#declare Spline_box =
+  spline {
+    natural_spline
+    -0.250, P7 - 0.10, // control point
+    0.000, P1 -0.15, // starting point
+    0.125, P2 -0.15,
+    0.250, P3 -0.05,
+    0.420, P4 -0.15,
+    0.490, P5 -0.15,
+    0.780, P6 -0.15,
+    0.900, P7 -0.15,
+    1.000, P1 -0.15, // end point
+    1.125, P2 -0.15  // control point
+  }// end of spline ---------------
+
+#declare Spline_torus =
+  spline {
+    natural_spline
+    -0.250, P7 + 0.20, // control point
+    0.000, P1 +0.25, // starting point
+    0.125, P2 +0.25,
+    0.250, P3 +0.25,
+    0.420, P4 +0.35,
+    0.490, P5 +0.45,
+    0.780, P6 +0.45,
+    0.900, P7 +0.45,
+    1.000, P1 +0.45, // end point
+    1.125, P2 +0.35  // control point
+  }// end of spline ---------------
+
+//END SPLINES
+
 // Create a plane
 polygon {
   5,
@@ -123,57 +251,38 @@ union{
   scale <0.3,0.3,0.3> rotate<90,360*clock,0> translate<-1.20,1.2,0> } // end of union
 
 //------------------------------------------------------- end
+//sphere macro
+#macro Esfera (Texture)
+  sphere { <0,0,0>, 0.75
+    texture { Texture
+    } // end of texture
 
-// sample sphere
-sphere { <0,0,0>, 0.75
-  texture { Polished_Chrome
-    //pigment{ color Red } // rgb< 1, 0.0, 0.0>}
-  //finish { phong 1 reflection {0.40 metallic 0.5}}
-} // end of texture
+    scale<0.3,0.3,0.3>  rotate < 0,360*clock,0>  translate<1.55*clock,1.35,0>
+  }
+#end // end of sphere macro -----------------------------------
 
-scale<0.3,0.3,0.3>  rotate < 0,360*clock,0>  translate<1.55*clock,1.35,0>
-}
-// end of sphere -----------------------------------
+//torus macro
+#macro Torus (Texture)
+  torus { 0.35,0.15
+    texture { Texture}
+    scale <0.6,0.6,0.6> rotate<90,360*clock,0> translate<0,0.60,0>
+  }
+#end
+// end of torus macro  -------------------------------
 
-
-torus { 0.35,0.15
-  texture { pigment{ color rgb<1,1,1>*0.15 }
-    finish { phong 0.4 }
-  } // end of texture
-  scale <0.6,0.6,0.6> rotate<90,360*clock,0> translate<0,0.60,0>
-}
-// end of torus  -------------------------------
-
-
-box { <0,0,0>,< 1.00, 1.00, 1.00>
-
-  texture { pigment{ color rgb<1,1,1>*0.15}
-    finish { phong 1 reflection{ 0.00 metallic 0.00} }
-  } // end of texture
-
+//box macro
+#macro Box (Texture)
+  box { <0,0,0>,< 1.00, 1.00, 1.00>
+  texture { Texture}
   scale <0.5,0.5,0.5>
   rotate< 0,360*clock,0> translate<0.2,1.2,0>
-} // end of box -
-
+}
+#end
+//end of box macro
 
 /* Declaration of worm components*/
 #declare Position_1 =  <0,0.25,1> ;
-// default texture fram 1 - 15
-#declare Segment_Texture =
-  texture{ pigment{ color rgb<1,0.65,0>}
-    finish { phong 1.0 }
-  } // end of texture
 
-// default texture fram 15 - 30
-#declare Segment_Texture2 =
-  texture { pigment{ color rgb<1,1,1>*0.15}
-  } // end of texture
-
-#declare Segment_Texture3 =
-  texture { Polished_Chrome
-    //pigment{ color Red } // rgb< 1, 0.0, 0.0>}
-//finish { phong 1 reflection {0.40 metallic 0.5}}
-} // end of texture
 
 /*macro used to create the worm*/
 #macro Worm (radius_segment, radius_ring, Texture)
@@ -232,68 +341,105 @@ box { <0,0,0>,< 1.00, 1.00, 1.00>
   } // end of union
 #end // ------------------ end of worm's macro
 
-// coordinates for the points of a spline
-#declare P1 = <-2.00, 1, -2.00>;
-#declare P2 = < 1.00, 1, -2.00>;
-#declare P3 = < 2.00, 1, -1.00>;
-#declare P4 = < 2.00, 1,  2.00>;
-#declare P5 = < 0.00, 1,  2.00>;
-#declare P6 = <-2.00, 1,  1.50>;
-#declare P7 = <-2.00, 1, -1.00>;
-#declare P8 = <-2.00, 1, -2.00>;
+/*Drawing the sphere*/
+#if (frame_number<100)
+  object{
+    Esfera(esfera_texture3)
+    translate Spline_esfera(clock+0/30)}
+  // -------------------------------- end
+  #elseif (frame_number>=100 & frame_number<200)
+  object{
+    Esfera(esfera_texture2)
+    translate Spline_esfera(clock+0/30)}
+  #elseif (frame_number>=200)
+  object{
+    Esfera(esfera_texture3)
+    translate Spline_esfera(clock+0/30)}
+#end
+//end draw sphere.
 
-#declare Spline_1 =
-  spline {
-    natural_spline
-    -0.250, P7, // control point
-    0.000, P1, // starting point
-    0.125, P2,
-    0.250, P3,
-    0.420, P4,
-    0.490, P5,
-    0.780, P6,
-    0.900, P7,
-    1.000, P1, // end point
-    1.125, P2  // control point
-  }// end of spline ---------------
-/* Drawing the worm*/
-object{
-  Worm(0.15, 0.50, Segment_Texture)
-  translate Spline_1(clock+0/30)}
-// -------------------------------- end
+/* Drawing the torus*/
+#if (frame_number<100)
+  object{
+    Torus(torus_texture)
+    translate Spline_torus(clock+0/30)}
+  // -------------------------------- end
+  #elseif (frame_number>=100 & frame_number<200)
+  object{
+    Torus(torus_texture2)
+    translate Spline_torus(clock+0/30)}
+  #elseif (frame_number>=200 & frame_number<300)
+  object{
+    Torus(torus_texture3)
+    translate Spline_torus(clock+0/30)}
+#end
+//end draw torus
+
+/* Drawing the box*/
+#if (frame_number<100)
+  object{
+    Box(box_texture)
+    translate Spline_box(clock+0/30)}
+  // -------------------------------- end
+  #elseif (frame_number>=100 & frame_number<200)
+  object{
+    Box(box_texture2)
+    translate Spline_box(clock+0/30)}
+  #elseif (frame_number>=200 & frame_number<300)
+  object{
+    Box(box_texture3)
+    translate Spline_box(clock+0/30)}
+#end
+//end draw box
+
+/* Drawing the custom object*/
+#if (frame_number<100)
+  object{
+    Worm(0.15, 0.50, Segment_Texture)
+    translate Spline_tacho_basura(clock+0/30)}
+  // -------------------------------- end
+  #elseif (frame_number>=100 & frame_number<200)
+  object{
+    Worm(0.15, 0.50, Segment_Texture2)
+    translate Spline_tacho_basura(clock+0/30)}
+  #elseif (frame_number>=200 & frame_number<300)
+  object{
+    Worm(0.15, 0.50, Segment_Texture3)
+    translate Spline_tacho_basura(clock+0/30)}
+#end
 
 // message of pov ray.
-object{ Circle_Text_Valigned(
-  "cyrvetic.ttf" // or: "arial.ttf", // Font,
-  "POV-RAY", //  Text,
-  0.35,  0.0005, 0.15,  // Letter_Size, Letter_Spacing, Deepth,
-  1.00,     1,         // Radius, Inverted,
-  Align_Center, // Justification: either Align_Left, Align_Right, or Align_Center
-  15,        // Circle angle
-  -95 )      // Valign:  Rotates vertical objects. -90 = right side up, 90 = upside-down, 0 = horzontal.
-
-  texture{ pigment{ color rgb<1,0.75,0>}
-    // normal { bumps 0.5 scale 0.005}
-    finish { specular 1 reflection { 0.15 metallic 0.25} }
-  } // end of texture
-  rotate<90,100,0>
-  scale<1,2,1>*1
-  translate<0,0.5,10>
-} // end povray message  ------------------------------------------------------------
-
-// // spline used to move worm
-// #declare P1 = <-2.00, 0.20, -2.00>;
-// #declare P2 = < 1.00, 0.20, -2.00>;
-// #declare P3 = < 2.00, 0.70, -1.00>;
-// #declare P4 = < 2.00, 1.20,  2.00>;
-// #declare P5 = < 0.00, 0.20,  2.00>;
-// #declare P6 = <-2.00, 3.20,  1.50>;
-// #declare P7 = <-2.00, 0.70, -1.00>;
-// #declare P8 = <-2.00, 0.00, -2.00>;
-
-//----------------------------------------
-
-
-// The moving sphere:
-
-//---------------------------------------
+difference {
+  box{
+    <-3,-2, 8>, <4, 2, 8>
+    texture{
+      pigment{ brick
+        color White
+        color rgb<0.8,0.25,0.1>
+        // color mortar, color brick
+        brick_size <0.25, 0.0525, 0.125 >
+        // format in x-,y-,z- direction
+        mortar 0.01 // size of the mortar
+      }
+      normal { wrinkles 0.75 scale 0.01}
+      finish { diffuse 0.9 phong 0.2}
+    } // end of texture
+  }
+  text {
+    ttf "timrom.ttf" " POV-RAY RLZ!" 0.15, 0
+    pigment {
+      bozo
+      frequency 3            // <- add this line
+      color_map {
+        [0.00 color Red]
+        [0.33 color Blue]
+        [0.66 color Yellow]
+        [1.00 color Red]
+      }
+      rotate -45*z
+    }
+    finish { reflection .25 specular 1 }
+    translate <-3,1,8>
+  }
+}
+// end povray message  ------------------------------------------------------------
