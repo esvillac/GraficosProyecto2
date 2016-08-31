@@ -13,3 +13,5 @@ http://www.f-lohmueller.de/pov_tut/animate/anim21e.htm
 http://www.f-lohmueller.de/pov_tut/animate/anim280e.htm
 - physics laws used in motion
 - http://www.f-lohmueller.de/pov_tut/animate/anim260e.htm
+- Brick color for the message of Pov ray.
+http://www.f-lohmueller.de/pov_tut/tex/tex_550e.htm
