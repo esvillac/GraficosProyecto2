@@ -15,3 +15,5 @@ http://www.f-lohmueller.de/pov_tut/animate/anim280e.htm
 - http://www.f-lohmueller.de/pov_tut/animate/anim260e.htm
 - Brick color for the message of Pov ray.
 http://www.f-lohmueller.de/pov_tut/tex/tex_550e.htm
+http://www.ms.uky.edu/~lee/visual05/povray/povray.html
+ - usada para realizar la piramide mostrada en la escena.
