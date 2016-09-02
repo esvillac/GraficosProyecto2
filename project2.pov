@@ -1,5 +1,3 @@
-
-
 global_settings{ assumed_gamma 1.0 }
 #default{ finish{ ambient 0.1 diffuse 0.9 }}
 //--------------------------------------------------------------------------
@@ -67,7 +65,7 @@ plane{<0,1,0>,1 hollow
 
 #declare esfera_texture2 =
   texture { pigment{ wood}
-  finish { phong 1.0 }
+    finish { phong 1.0 }
   }
 
 #declare esfera_texture3 =
@@ -77,15 +75,15 @@ plane{<0,1,0>,1 hollow
 #declare box_Material =
   material{
     texture { pigment{ color rgbt <0, 1, 0, 1>}
-    finish{
-    ambient 0
-    diffuse 0
-    reflection {
-        0, 1
-        fresnel on
-    }
-    conserve_energy
-    }}
+      finish{
+        ambient 0
+        diffuse 0
+        reflection {
+          0, 1
+          fresnel on
+        }
+        conserve_energy
+      }}
     interior {
       ior 1.3
     }
@@ -101,9 +99,9 @@ plane{<0,1,0>,1 hollow
   }
 
 #declare torus_texture =
- texture { pigment{ radial rotate -x*90 }
+  texture { pigment{ radial rotate -x*90 }
     finish { phong 0.4 }
-}
+  }
 
 #declare torus_texture2 =
   texture { pigment{ mandel 256}
@@ -112,7 +110,7 @@ plane{<0,1,0>,1 hollow
 #declare torus_texture3 =
   texture { pigment{ checker }
     finish { phong 0.4 }
-} // end of texture
+  } // end of texture
 // END TEXTURAS
 
 // SPLINES
@@ -193,15 +191,27 @@ plane{<0,1,0>,1 hollow
 polygon {
   5,
   <-10,0,10>, <-10,0,-10>, <10,0,-10>, <10,0,10>, <-10,0,10>
-  texture {
-    pigment {
-      checker White Tan
-      scale 0.4
+  #if (frame_number <200)
+    texture {
+      pigment {
+        checker White Tan
+        scale 0.4
+      }
+      finish {
+        diffuse 0.9
+      }
     }
-    finish {
-      diffuse 0.9
+  #elseif (frame_number>200)
+        texture {
+      pigment {
+        checker Black Tan
+        scale 0.4
+      }
+      finish {
+        diffuse 0.9
+      }
     }
-  }
+  #end
 }
 
 //ground floor
@@ -289,10 +299,10 @@ union{
 //box macro
 #macro Box (Material)
   box { <0,0,0>,< 1.00, 1.00, 1.00>
-  material { Material}
-  scale <0.5,0.5,0.5>
-  rotate< 0,360*clock,0> translate<0.2,1.2,0>
-}
+    material { Material}
+    scale <0.5,0.5,0.5>
+    rotate< 0,360*clock,0> translate<0.2,1.2,0>
+  }
 #end
 //end of box macro
 
@@ -397,11 +407,11 @@ union{
     Box(box_Material)
     translate Spline_box(clock+0/30)}
   // -------------------------------- end
-  #elseif (frame_number>=100 & frame_number<200)
+  #elseif (frame_number>=100 & frame_number<300)
   object{
     Box(box_Material)
     translate Spline_box(clock+0/30)}
-  #elseif (frame_number>=200)
+  #elseif (frame_number>=300)
   object{
     Box(box_Material)
     translate Spline_box(clock+0/30)}
@@ -459,3 +469,39 @@ difference {
   }
 }
 // end povray message  ------------------------------------------------------------
+
+
+#declare p1 = <1,0,0>;
+#declare p2 = <0,1,0>;
+#declare p3 = <-1,0,0>;
+#declare p4 = <0,-1,0>;
+#declare p5 = <0,0,1>;
+
+//Define the polygons for each of the five sides.
+//Notice that the last point must be a repetition of the first.
+//The first number indicates how many points will be listed.
+#declare f1 = polygon { 5, p1, p2, p4, p3, p1 };
+#declare f2 = polygon { 4, p1, p2, p5, p1 };
+#declare f3 = polygon { 4, p2, p3, p5, p2 };
+#declare f4 = polygon { 4, p3, p4, p5, p3 };
+#declare f5 = polygon { 4, p4, p1, p5, p4 };
+
+//Define the pyramid to be the union of its faces.
+#declare mypyramid = object { union {
+  object{f1}
+  object{f2}
+  object{f3}
+  object{f4}
+  object{f5}
+}
+  texture{ pigment{ granite}
+    finish { phong 1.0 }
+  }
+
+  rotate <0,90,90>
+  translate <1.5,1,4>
+  rotate <0, 360*clock,0>
+};
+
+//List the defined object(s) to be displayed
+mypyramid
