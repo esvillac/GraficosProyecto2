@@ -48,12 +48,12 @@ plane{<0,1,0>,1 hollow
 
 // TEXTURAS
 #declare Segment_Texture =
-  texture{ pigment{ color rgb<1,0.65,0>}
+  texture{ pigment{ bozo}
     finish { phong 1.0 }
   }
 
 #declare Segment_Texture2 =
-  texture { pigment{ color rgb<1,1,1>*0.15}
+  texture { pigment{ agate}
   }
 
 #declare Segment_Texture3 =
@@ -61,41 +61,56 @@ plane{<0,1,0>,1 hollow
   }
 
 #declare esfera_texture =
-  texture{ pigment{ color rgb<1,0.65,0>}
+  texture{ pigment{ granite}
     finish { phong 1.0 }
   }
 
 #declare esfera_texture2 =
-  texture { pigment{ color rgb<1,1,1>*0.15}
+  texture { pigment{ wood}
+  finish { phong 1.0 }
   }
 
 #declare esfera_texture3 =
   texture { Polished_Chrome
   }
 
-#declare box_texture =
-  texture { pigment{ color rgb<1,1,1>*0.15}}
+#declare box_Material =
+  material{
+    texture { pigment{ color rgbt <0, 1, 0, 1>}
+    finish{
+    ambient 0
+    diffuse 0
+    reflection {
+        0, 1
+        fresnel on
+    }
+    conserve_energy
+    }}
+    interior {
+      ior 1.3
+    }
+  }
 
 #declare box_texture2 =
-  texture { pigment{ color rgb<1,1,1>*0.15}
+  texture { pigment{ spotted}
   }
 
 #declare box_texture3 =
-  texture{ pigment{ color rgb<1,0.65,0>}
+  texture{ pigment{  leopard}
     finish { phong 1.0 }
   }
 
 #declare torus_texture =
- texture { pigment{ color rgb<1,1,1>*0.15 }
+ texture { pigment{ radial rotate -x*90 }
     finish { phong 0.4 }
 }
 
 #declare torus_texture2 =
-  texture { pigment{ color rgb<1,1,1>*0.15}
+  texture { pigment{ mandel 256}
   }
 
 #declare torus_texture3 =
-  texture { pigment{ color rgb<1,1,1>*0.15 }
+  texture { pigment{ checker }
     finish { phong 0.4 }
 } // end of texture
 // END TEXTURAS
@@ -146,7 +161,7 @@ plane{<0,1,0>,1 hollow
   spline {
     natural_spline
     -0.250, P7 - 0.10, // control point
-    0.000, P1 -0.15, // starting point
+    0.400, P1 -0.15, // starting point
     0.125, P2 -0.15,
     0.250, P3 -0.05,
     0.420, P4 -0.15,
@@ -205,6 +220,7 @@ plane{ <0,0.25,0>, -0.1
     finish { phong 0.1 }
   } // end of texture
 } // end of plane
+
 //--------------------------------------------------------------------------
 //---------------------------- objects in scene ----------------------------
 //--------------------------------------------------------------------------
@@ -271,9 +287,9 @@ union{
 // end of torus macro  -------------------------------
 
 //box macro
-#macro Box (Texture)
+#macro Box (Material)
   box { <0,0,0>,< 1.00, 1.00, 1.00>
-  texture { Texture}
+  material { Material}
   scale <0.5,0.5,0.5>
   rotate< 0,360*clock,0> translate<0.2,1.2,0>
 }
@@ -368,7 +384,7 @@ union{
   object{
     Torus(torus_texture2)
     translate Spline_torus(clock+0/30)}
-  #elseif (frame_number>=200 & frame_number<300)
+  #elseif (frame_number>=200)
   object{
     Torus(torus_texture3)
     translate Spline_torus(clock+0/30)}
@@ -378,16 +394,16 @@ union{
 /* Drawing the box*/
 #if (frame_number<100)
   object{
-    Box(box_texture)
+    Box(box_Material)
     translate Spline_box(clock+0/30)}
   // -------------------------------- end
   #elseif (frame_number>=100 & frame_number<200)
   object{
-    Box(box_texture2)
+    Box(box_Material)
     translate Spline_box(clock+0/30)}
-  #elseif (frame_number>=200 & frame_number<300)
+  #elseif (frame_number>=200)
   object{
-    Box(box_texture3)
+    Box(box_Material)
     translate Spline_box(clock+0/30)}
 #end
 //end draw box
@@ -402,7 +418,7 @@ union{
   object{
     Worm(0.15, 0.50, Segment_Texture2)
     translate Spline_tacho_basura(clock+0/30)}
-  #elseif (frame_number>=200 & frame_number<300)
+  #elseif (frame_number>=200)
   object{
     Worm(0.15, 0.50, Segment_Texture3)
     translate Spline_tacho_basura(clock+0/30)}
