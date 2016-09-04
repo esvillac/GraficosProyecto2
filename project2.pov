@@ -89,19 +89,46 @@ plane{<0,1,0>,1 hollow
     }
   }
 
+
+#declare box_texture  =
+
+
+
+       texture{ White_Wood  
+                normal { wood 0.5 scale 0.3 turbulence 0.1}
+                finish { phong 1 } 
+                rotate<60,0,45> scale 0.2
+              } // end of texture 
+
+         
+
+
+
 #declare box_texture2 =
-  texture { pigment{ spotted}
-  }
+   texture { pigment{ color rgb<1,1,1>*0.15}  
+                finish { phong 1 reflection{ 0.00 metallic 0.00} } 
+              } // end of texture
+     
+ 
 
-#declare box_texture3 =
-  texture{ pigment{  leopard}
-    finish { phong 1.0 }
-  }
+#declare box_texture3 = 
+          texture { Polished_Chrome
+                   pigment{ color rgb<0.5,0.3,0.8>} 
+                   normal { crackle 3  scale 0.15 } 
+                   // finish { phong 1}
+                 } // end of texture 
 
+ 
+ 
+    
+ 
+ 
+ 
 #declare torus_texture =
   texture { pigment{ radial rotate -x*90 }
     finish { phong 0.4 }
-  }
+  }            
+  
 
 #declare torus_texture2 =
   texture { pigment{ mandel 256}
@@ -297,9 +324,9 @@ union{
 // end of torus macro  -------------------------------
 
 //box macro
-#macro Box (Material)
+#macro Box (Texture)
   box { <0,0,0>,< 1.00, 1.00, 1.00>
-    material { Material}
+   texture { Texture}
     scale <0.5,0.5,0.5>
     rotate< 0,360*clock,0> translate<0.2,1.2,0>
   }
@@ -404,16 +431,16 @@ union{
 /* Drawing the box*/
 #if (frame_number<100)
   object{
-    Box(box_Material)
+    Box(box_texture)
     translate Spline_box(clock+0/30)}
   // -------------------------------- end
   #elseif (frame_number>=100 & frame_number<300)
   object{
-    Box(box_Material)
+    Box(box_texture2)
     translate Spline_box(clock+0/30)}
   #elseif (frame_number>=300)
   object{
-    Box(box_Material)
+    Box(box_texture3)
     translate Spline_box(clock+0/30)}
 #end
 //end draw box
