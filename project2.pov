@@ -94,41 +94,41 @@ plane{<0,1,0>,1 hollow
 
 
 
-       texture{ White_Wood  
-                normal { wood 0.5 scale 0.3 turbulence 0.1}
-                finish { phong 1 } 
-                rotate<60,0,45> scale 0.2
-              } // end of texture 
+texture{ White_Wood
+  normal { wood 0.5 scale 0.3 turbulence 0.1}
+  finish { phong 1 }
+  rotate<60,0,45> scale 0.2
+} // end of texture
 
-         
+
 
 
 
 #declare box_texture2 =
-   texture { pigment{ color rgb<1,1,1>*0.15}  
-                finish { phong 1 reflection{ 0.00 metallic 0.00} } 
-              } // end of texture
-     
- 
+  texture { pigment{ color rgb<1,1,1>*0.15}
+    finish { phong 1 reflection{ 0.00 metallic 0.00} }
+  } // end of texture
 
-#declare box_texture3 = 
-          texture { Polished_Chrome
-                   pigment{ color rgb<0.5,0.3,0.8>} 
-                   normal { crackle 3  scale 0.15 } 
-                   // finish { phong 1}
-                 } // end of texture 
 
- 
- 
-    
- 
- 
- 
+
+#declare box_texture3 =
+  texture { Polished_Chrome
+    pigment{ color rgb<0.5,0.3,0.8>}
+    normal { crackle 3  scale 0.15 }
+    // finish { phong 1}
+  } // end of texture
+
+
+
+
+
+
+
 #declare torus_texture =
   texture { pigment{ radial rotate -x*90 }
     finish { phong 0.4 }
-  }            
-  
+  }
+
 
 #declare torus_texture2 =
   texture { pigment{ mandel 256}
@@ -228,8 +228,8 @@ polygon {
         diffuse 0.9
       }
     }
-  #elseif (frame_number>200)
-        texture {
+    #elseif (frame_number>200)
+    texture {
       pigment {
         checker Black Tan
         scale 0.4
@@ -326,7 +326,7 @@ union{
 //box macro
 #macro Box (Texture)
   box { <0,0,0>,< 1.00, 1.00, 1.00>
-   texture { Texture}
+    texture { Texture}
     scale <0.5,0.5,0.5>
     rotate< 0,360*clock,0> translate<0.2,1.2,0>
   }
@@ -466,23 +466,16 @@ difference {
   box{
     <-3,-2, 8>, <4, 2, 8>
     texture{
-      pigment{ brick
-        color White
-        color rgb<0.8,0.25,0.1>
-        // color mortar, color brick
-        brick_size <0.25, 0.0525, 0.125 >
-        // format in x-,y-,z- direction
-        mortar 0.01 // size of the mortar
-      }
+      pigment{Red}
       normal { wrinkles 0.75 scale 0.01}
       finish { diffuse 0.9 phong 0.2}
     } // end of texture
   }
   text {
-    ttf "timrom.ttf" " POV-RAY RLZ!" 0.15, 0
+    ttf "timrom.ttf" " POV-RAY RLZ!"+0.25, 0
     pigment {
       bozo
-      frequency 3            // <- add this line
+      frequency 4            // <- add this line
       color_map {
         [0.00 color Red]
         [0.33 color Blue]
@@ -532,3 +525,165 @@ difference {
 
 //List the defined object(s) to be displayed
 mypyramid
+
+
+#include "povtree_001.inc"
+//-------------------------------------------------------------------------------------//
+#declare Tree =
+  object{ Tree_00
+    scale <1,1,1>*1
+    rotate<0,0,0>
+    translate<0.00, 0.00, 0.00>}
+//-------------------------------------------------------------------------------------//
+//-------------------------------------------------------------------------------------//
+
+#declare Random_1 = seed (34053); // Use: "rand(Random_1)"
+#declare Random_2 = seed (62853); // Use: "rand(Random_2)"
+#declare Random_3 = seed ( 8353); // Use: "rand(Random_3)"
+
+// planting a row of trees:
+union{
+  #declare Nr = 1;   // start
+  #declare EndNr = 10; // end
+  #while (Nr< EndNr+1)
+
+    object{ Tree
+      // scaled by random
+      scale 1 + 0.5*(-0.5*rand(Random_1)) // (0.75 ~ 1.25)
+      // rotated by random
+      rotate<10*rand(Random_2),30*(-0.5+rand(Random_2)),0>
+      // translate + Random
+      translate< 0.25*(-0.5+rand(Random_2)),-0.05, Nr*2.25+0.5*rand(Random_2)>
+
+    } // end of sphere ----------------------
+
+
+    #declare Nr = Nr + 1;  // next Nr
+  #end // --------------- end of loop
+
+  rotate<0,0,0>
+  translate<11,0,-10>
+} // end of union ---- end of row of trees
+//----------------------------------------------------------------------------------
+
+
+union{
+  #declare Nr = 1;   // start
+  #declare EndNr = 10; // end
+  #while (Nr< EndNr+1)
+
+    object{ Tree
+      // scaled by random
+      scale 1 + 0.5*(-0.5*rand(Random_1)) // (0.75 ~ 1.25)
+      // rotated by random
+      rotate<10*rand(Random_2),30*(-0.5+rand(Random_2)),0>
+      // translate + Random
+      translate< 0.25*(-0.5+rand(Random_2)),-0.05, Nr*2.25+0.5*rand(Random_2)>
+
+    } // end of sphere ----------------------
+
+
+    #declare Nr = Nr + 1;  // next Nr
+  #end // --------------- end of loop
+
+  rotate<0,90,0>
+  translate<-15,0,15>
+} // end of union ---- end of row of trees
+//----------------------------------------------------------------------------------
+
+
+union{
+  #declare Nr = 1;   // start
+  #declare EndNr = 10; // end
+  #while (Nr< EndNr+1)
+
+    object{ Tree
+      // scaled by random
+      scale 1 + 0.5*(-0.5*rand(Random_1)) // (0.75 ~ 1.25)
+      // rotated by random
+      rotate<10*rand(Random_2),30*(-0.5+rand(Random_2)),0>
+      // translate + Random
+      translate< 0.25*(-0.5+rand(Random_2)),-0.05, Nr*2.25+0.5*rand(Random_2)>
+
+    } // end of sphere ----------------------
+
+
+    #declare Nr = Nr + 1;  // next Nr
+  #end // --------------- end of loop
+
+  rotate<0,0,0>
+  translate<-13,0,-10>
+} // end of union ---- end of row of trees
+
+#macro Glass_01( G_R, // radius of glass
+  G_H, // height of glass
+) //------------------------
+
+  difference{
+    cylinder{<0,      0,0>,<0,G_H   ,0>,G_R }
+    cylinder{<0,G_R*.05,0>,<0,G_H+.1,0>,G_R*.9}
+  } // end of difference
+
+
+#end // end of macro
+
+//----------------------------------------------------------------------------------
+object{
+  difference{
+    union{
+      cylinder{
+        <0,0,0>, <0,2.2,0>, 1
+        pigment { rgbf <0.5,0.9,1,0.95> } // A blue-tinted glass
+        finish
+        { phong 0.9 phong_size 40  // A highlight
+          reflection 0.2  // Glass reflects a bit
+        }
+        interior
+        { ior 1.5 // Glass refraction
+        }
+        finish{ambient .4}
+        translate<-0.3,0,-3>
+
+      }
+      sphere_sweep {
+        b_spline
+        6,
+        <-1,1,0>, .2
+        <0,0,0>, .2
+        <1,0,0>, .2
+        <1,2,0>, .2
+        <0,2,0>, .2
+        <-1,1,0>, .2
+
+        pigment { rgbf <0.5,0.9,1,0.95> } // A blue-tinted glass
+        finish
+        { phong 0.9 phong_size 40  // A highlight
+          reflection 0.2  // Glass reflects a bit
+        }
+        interior
+        { ior 1.5 // Glass refraction
+        }
+
+        finish {ambient .4}
+        translate<0.2,0,-3>
+      }
+    }
+
+    cylinder{
+      <0,0,0>, <0,2.3,0>, 0.7
+      pigment { rgbf <0.5,0.9,1,0.95> } // A blue-tinted glass
+      finish
+      { phong 0.9 phong_size 40  // A highlight
+        reflection 0.2  // Glass reflects a bit
+      }
+      interior
+      { ior 1.5 // Glass refraction
+      }
+      finish{ambient .4}
+      translate<-0.4,0,-3>
+    }
+
+  }
+  scale <0.5,0.5,0.5>
+  rotate < 0,360*clock,0>
+}
